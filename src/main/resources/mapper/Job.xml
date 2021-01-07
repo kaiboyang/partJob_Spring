@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nuc.parttimejob.dao.JobListDao">
+    <!-- 根据主键查询-->
+    <select id="jobList" resultType="com.nuc.parttimejob.entity.JobEntity">
+        select je.empid empId,e.name empName,je.jobid jobId,j.position,j.require,j.time,j.money,j.place,e.phone,j.rate
+        from employee e,job j,je
+        where e.id=je.empid and j.id=je.jobid
+    </select>
+    <!-- 查找所有工作 -->
+    <select id="empJobList" resultType="com.nuc.parttimejob.entity.JobEntity" parameterType="java.lang.Integer">
+        select *
+        from je,job j
+        where je.empid=#{id} and je.empid=j.id
+    </select>
+    <!-- 添加工作 -->
+    <insert id="insertJob" parameterType="com.nuc.parttimejob.entity.InsertJobEntity"  useGeneratedKeys="true"  keyProperty="jobId" keyColumn="id">
+        insert into
+        job(`name`,`time`,`require`,`position`,money,place)
+        values(#{name},#{time},#{require},#{position},#{money},#{place})
+    </insert>
+    <!-- 添加工作、雇主关系 -->
+    <insert id="insertJE" parameterType="com.nuc.parttimejob.entity.InsertJobEntity">
+        insert into je(jobid,empid)  values(#{jobId},#{empId})
+    </insert>
+</mapper>

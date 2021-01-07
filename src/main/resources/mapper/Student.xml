@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nuc.parttimejob.dao.LoginDao">
+    <!-- 根据主键查询-->
+    <select id="studentLogin" resultType="java.lang.Integer" parameterType="com.nuc.parttimejob.entity.LoginEntity">
+        select count(*) from student where id = #{id} and pwd=#{pwd}
+    </select>
+</mapper>

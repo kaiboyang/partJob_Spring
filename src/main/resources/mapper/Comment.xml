@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nuc.parttimejob.dao.CommentDao">
+    <select id="JobComment" resultType="com.nuc.parttimejob.entity.JobCommentEntity">
+        select jc.content,s.name,jc.time from jobcomment jc,student s where jc.jobid=#{id} and jc.stuId=s.id
+    </select>
+
+    <!-- 根据id查找工作评论 -->
+    <select id="selectJobCommentById" parameterType="java.lang.Integer" resultType="com.nuc.parttimejob.entity.SelectJobCommentByIdEntity">
+        select jc.id,jc.content,j.name from jobcomment jc,job j where stuId=#{id} and  jc.jobId=j.id
+    </select>
+
+    <!-- 修改评分 -->
+    <update id="updateJobRate" parameterType="com.nuc.parttimejob.entity.InsertJobCommentEntity">
+        update job
+        set rate=(SELECT (r.rate+#{rate})/2 FROM((select rate from job where id=#{jobId}))r)
+        where id=#{jobId}
+    </update>
+    <!-- 添加工作评论 -->
+    <insert id="insertJobComment" parameterType="com.nuc.parttimejob.entity.InsertJobCommentEntity">
+        insert into jobcomment(stuId,jobId,content) values(#{stuId},#{jobId},#{content})
+    </insert>
+
+    <!-- 添加系统评论 -->
+    <insert id="insertBaseComment" parameterType="com.nuc.parttimejob.entity.InsertBaseComment">
+        insert into basecomment(bTime,bComment) values(#{bTime},#{bComment})
+    </insert>
+
+    <!--  查询所有系统评论  -->
+    <select id="selectBaseComment" resultType="com.nuc.parttimejob.entity.BaseComment">
+        select * from basecomment
+    </select>
+
+    <!-- 通过id删除评论 -->
+    <delete id="deleteJobCommentById" parameterType="java.lang.Integer">
+        delete from jobcomment where id=#{id}
+    </delete>
+</mapper>

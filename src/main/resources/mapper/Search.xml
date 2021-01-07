@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nuc.parttimejob.dao.SearchDao">
+    <select id="fuzzySearchPosition" parameterType="java.lang.String" resultType="com.nuc.parttimejob.entity.JobEntity">
+        select je.empid empId,e.name empName,je.jobid jobId,j.position,j.require,j.time,j.money,j.place,e.phone,j.rate
+        from employee e,job j,je
+        where e.id=je.empid and j.id=je.jobid and j.`require` like '%${value}%'
+    </select>
+</mapper>
